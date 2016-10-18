@@ -1,0 +1,122 @@
+.catalog:
+  name: Drone Agent
+  version: 0.1
+  description: |
+    Drone CI Agent (version  0.5)
+  questions:
+    - variable: LB_PORT
+      label: Drone Load balancer public port
+      description: |
+        Load balancer port that agents will use to connect to the server
+      type: int
+      required: true
+    - variable: DRONE_TOKEN
+      label: Drone token
+      description: |
+        The generated token for the Drone server. Used to verify that the
+        agents can connect and execute builds. Get that from drone server logs
+      required: true
+      type: string
+    - variable: "DRONE_SERVER"
+      type: "service"
+      label: "Drone Server Load Balancer"
+      description: "Drone server load balancer to link to."
+      default: "drone-lb"
+    - variable: DRONE_DEBUG
+      label: Debug mode
+      description: |
+        Runs the agent in debug mode. This will result in more logging being
+        produced by the agent.
+      required: true
+      type: boolean
+      default: false
+    - variable: DRONE_BACKOFF
+      label: Backoff time
+      description: |
+        The backoff time to reconnect agents when their connection to the
+        central server is interrupted.
+      required: false
+      type: string
+    - variable: DRONE_PLUGIN_PULL
+      label: Update plugins automatically
+      description: |
+        Whether plugins are pulled automatically by the agent.
+      type: boolean
+      default: true
+    - variable: DRONE_PLUGIN_NAMESPACE
+      label: Plugin namespace in DockerHub
+      description: Plugin namespace in DockerHub.
+      default: plugins
+      type: string
+    - variable: DRONE_PLUGIN_WHITELIST
+      label: Plugin whitelist
+      description: |
+        Plugin whitelist. Add to the string to include additional locations of
+        plugins.
+      type: string
+      default: "plugins/*"
+    - variable: DOCKER_HOST
+      label: Docker host address
+      description: Docker host address
+      type: string
+      default: "unix:///var/run/docker.sock"
+    - variable: DOCKER_TLS_VERIFY
+      label: Docker requires TLS verification
+      description: |
+        Whether Docker requires TLS verification.
+      type: boolean
+      default: false
+    - variable: DOCKER_CERT_PATH
+      label: Docker certificate path.
+      description: Docker certificate path.
+      type: string
+      default: ""
+    - variable: DOCKER_MAX_PROCS
+      label: Docker concurrent build processes.
+      description: |
+        The number of concurrent builds run by the agent.
+      type: int
+      default: 1
+    - variable: DOCKER_OS
+      label: Docker operating system
+      description: |
+        The operating system in use.
+      type: enum
+      options:
+        - linux
+        - android
+        - freebsd
+        - solaris
+        - windows
+      default: linux
+    - variable: DOCKER_ARCH
+      label: Docker architecture
+      description: |
+        The CPU architecture of the host.
+      type: enum
+      options:
+        - amd64
+        - arm
+        - arm64
+      default: amd64
+    - variable: HTTP_PROXY
+      label: The proxy for HTTP connections.
+      description: |
+        The proxy for HTTP connections. Used when Drone is running behind a
+        firewall.
+      required: false
+      type: string
+    - variable: HTTPS_PROXY
+      label: The proxy for HTTPS connections.
+      description: |
+        The proxy for HTTPS connections. Used when Drone is running behind a
+        firewall.
+      required: false
+      type: string
+    - variable: NO_PROXY
+      label: The sites to not proxy.
+      description: |
+        The sites to not proxy. Used when Drone is running behind a
+        firewall.
+      required: false
+      type: string

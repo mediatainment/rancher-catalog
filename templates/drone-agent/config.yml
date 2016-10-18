@@ -1,0 +1,8 @@
+name: Drone Agent
+description: |
+  Drone agent that connets to drone-server and runs the builds (version 0.5)
+version: # Version of the Catalog to be used
+category: # Category to be used for searching catalog entries
+maintainer: Artur Grabowski
+license: Do whatever you want with it license
+projectURL: https://github.com/majest/rancher-catalog

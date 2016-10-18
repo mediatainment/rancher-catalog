@@ -1,0 +1,18 @@
+drone-agent:
+  image: drone/drone:0.5
+  command: agent
+  privileged: true
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  environment:
+    DRONE_SERVER: http://drone-server:${LB_PORT}
+    DRONE_TOKEN: ${DRONE_TOKEN}
+    DRONE_DEBUG: ${DRONE_DEBUG}
+    DRONE_BACKOFF: ${DRONE_BACKOFF}
+    DRONE_PLUGIN_PULL: ${DRONE_PLUGIN_PULL}
+    DRONE_PLUGIN_NAMESPACE: ${DRONE_PLUGIN_NAMESPACE}
+    DRONE_PLUGIN_WHITELIST: ${DRONE_PLUGIN_WHITELIST}
+    DOCKER_HOST: ${DOCKER_HOST}
+    DOCKER_MAX_PROCS: ${DOCKER_MAX_PROCS}
+  external_links:
+    - ${DRONE_SERVER}:drone-server
