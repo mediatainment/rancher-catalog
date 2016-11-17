@@ -61,3 +61,5 @@ drone-agent:
     DRONE_PLUGIN_WHITELIST: ${DRONE_PLUGIN_WHITELIST}
     DOCKER_HOST: ${DOCKER_HOST}
     DOCKER_MAX_PROCS: ${DOCKER_MAX_PROCS}
+  links:
+    - drone-server:drone-server

@@ -41,12 +41,6 @@
       required: true
       default: /var/lib/drone/drone.sqlite
       description: "Must be full db string. The hostname for the DB will be 'database'. See http://readme.drone.io/setup/overview/ for more info"
-
-    - variable: "DRONE_SERVER"
-      type: "service"
-      label: "Drone Server Load Balancer"
-      description: "Drone server load balancer to link to."
-      default: "drone-lb"
     - variable: DRONE_DEBUG
       label: Debug mode
       description: |
