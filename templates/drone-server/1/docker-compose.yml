@@ -62,4 +62,4 @@ drone-agent:
     DOCKER_HOST: ${DOCKER_HOST}
     DOCKER_MAX_PROCS: ${DOCKER_MAX_PROCS}
   links:
-    - drone-server:drone-server
+    - drone-lb:drone-lb
