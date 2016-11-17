@@ -53,7 +53,7 @@ drone-agent:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   environment:
-    DRONE_SERVER: http://ds:${LB_PORT}
+    DRONE_SERVER: ws://drone-lb:${LB_PORT}/ws/broker
     DRONE_SECRET: ${DRONE_SECRET}
     DRONE_BACKOFF: ${DRONE_BACKOFF}
     DRONE_PLUGIN_PULL: ${DRONE_PLUGIN_PULL}
@@ -61,5 +61,3 @@ drone-agent:
     DRONE_PLUGIN_WHITELIST: ${DRONE_PLUGIN_WHITELIST}
     DOCKER_HOST: ${DOCKER_HOST}
     DOCKER_MAX_PROCS: ${DOCKER_MAX_PROCS}
-  external_links:
-    - ds:drone-server
