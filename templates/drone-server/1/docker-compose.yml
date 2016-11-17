@@ -1,0 +1,65 @@
+drone-server:
+  image: drone/drone:0.5
+  environment:
+    I_UNDERSTAND_I_AM_USING_AN_UNSTABLE_VERSION: "true"
+    I_AGREE_TO_FIX_BUGS_AND_NOT_FILE_BUGS: "true"
+    DRONE_SERVER_ADDR: ":8000"
+    DRONE_DEBUG: "true"
+    DRONE_SECRET: "${DRONE_SECRET}"
+    DRONE_DATABASE_DRIVER: ${DB_DRIVER}
+    DRONE_DATABASE_DATASOURCE: "${DB_CONFIG}"
+    DRONE_OPEN: "true"
+    DRONE_ORGS: ""
+    DRONE_ADMIN: ${REPO_USER}
+    DRONE_ADMIN_ALL: "false"
+    DRONE_BITBUCKET: "true"
+    DRONE_BITBUCKET_CLIENT: "${CONSUMER_KEY}"
+    DRONE_BITBUCKET_SECRET: "${CONSUMER_SECRET}"
+  volumes_from:
+    - drone-data-volume
+  labels:
+    io.rancher.sidekicks: drone-data-volume,drone-healthcheck
+    io.rancher.container.dns: true
+
+drone-healthcheck:
+  image: rancher/drone-config:v0.1.0
+  net: 'container:drone-server'
+  volumes_from:
+    - drone-data-volume
+  entrypoint: /giddyup health
+
+drone-data-volume:
+  image: busybox
+  net: none
+  command: /bin/true
+  labels:
+    io.rancher.container.start_once: 'true'
+  volumes:
+    - /var/lib/drone
+    - /etc/drone
+drone-lb:
+  ports:
+    - ${LB_PORT}:8000
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+    - drone-server:drone-server
+  stdin_open: true
+
+drone-agent:
+  image: drone/drone:0.5
+  command: agent
+  privileged: true
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  environment:
+    DRONE_SERVER: http://ds:${LB_PORT}
+    DRONE_SECRET: ${DRONE_SECRET}
+    DRONE_BACKOFF: ${DRONE_BACKOFF}
+    DRONE_PLUGIN_PULL: ${DRONE_PLUGIN_PULL}
+    DRONE_PLUGIN_NAMESPACE: ${DRONE_PLUGIN_NAMESPACE}
+    DRONE_PLUGIN_WHITELIST: ${DRONE_PLUGIN_WHITELIST}
+    DOCKER_HOST: ${DOCKER_HOST}
+    DOCKER_MAX_PROCS: ${DOCKER_MAX_PROCS}
+  external_links:
+    - ds:drone-server
