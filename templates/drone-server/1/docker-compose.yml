@@ -12,9 +12,9 @@ drone-server:
     DRONE_ORGS: ""
     DRONE_ADMIN: ${REPO_USER}
     DRONE_ADMIN_ALL: "false"
-    DRONE_BITBUCKET: "true"
-    DRONE_BITBUCKET_CLIENT: "${CONSUMER_KEY}"
-    DRONE_BITBUCKET_SECRET: "${CONSUMER_SECRET}"
+    DRONE_GITHUB: "true"
+    DRONE_GITHUB_CLIENT: "${CONSUMER_KEY}"
+    DRONE_GITHUB_SECRET: "${CONSUMER_SECRET}"
   volumes_from:
     - drone-data-volume
   labels:
